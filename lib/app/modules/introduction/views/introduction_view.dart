@@ -20,6 +20,7 @@ class IntroductionView extends GetView<IntroductionController> {
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
+                color: Color(0xFF431AA1),
               ),
             ),
             const SizedBox(
@@ -35,6 +36,7 @@ class IntroductionView extends GetView<IntroductionController> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
+                  color: Colors.grey,
                 ),
               ),
             ),
@@ -53,6 +55,9 @@ class IntroductionView extends GetView<IntroductionController> {
             ),
             ElevatedButton(
               onPressed: () => Get.offAllNamed(Routes.HOME),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF431AA1),
+              ),
               child: const Text('GET STARTED'),
             ),
           ],
