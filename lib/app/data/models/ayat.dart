@@ -1,224 +1,241 @@
 class Ayat {
-  Number number;
-  Meta meta;
-  Text text;
-  Translation translation;
-  Audio audio;
-  Tafsir tafsir;
+  Number? number;
+  Meta? meta;
+  Text? text;
+  Translation? translation;
+  Audio? audio;
+  Tafsir? tafsir;
 
-  Ayat({
-    required this.number,
-    required this.meta,
-    required this.text,
-    required this.translation,
-    required this.audio,
-    required this.tafsir,
-  });
+  Ayat(
+      {this.number,
+      this.meta,
+      this.text,
+      this.translation,
+      this.audio,
+      this.tafsir});
 
-  factory Ayat.fromJson(Map<String, dynamic> json) => Ayat(
-        number: Number.fromJson(json["number"]),
-        meta: Meta.fromJson(json["meta"]),
-        text: Text.fromJson(json["text"]),
-        translation: Translation.fromJson(json["translation"]),
-        audio: Audio.fromJson(json["audio"]),
-        tafsir: Tafsir.fromJson(json["tafsir"]),
-      );
+  Ayat.fromJson(Map<String, dynamic> json) {
+    number = json['number'] != null ? Number.fromJson(json['number']) : null;
+    meta = json['meta'] != null ? Meta.fromJson(json['meta']) : null;
+    text = json['text'] != null ? Text.fromJson(json['text']) : null;
+    translation = json['translation'] != null
+        ? Translation.fromJson(json['translation'])
+        : null;
+    audio = json['audio'] != null ? Audio.fromJson(json['audio']) : null;
+    tafsir = json['tafsir'] != null ? Tafsir.fromJson(json['tafsir']) : null;
+  }
 
-  Map<String, dynamic> toJson() => {
-        "number": number.toJson(),
-        "meta": meta.toJson(),
-        "text": text.toJson(),
-        "translation": translation.toJson(),
-        "audio": audio.toJson(),
-        "tafsir": tafsir.toJson(),
-      };
-}
-
-class Audio {
-  String primary;
-  List<String> secondary;
-
-  Audio({
-    required this.primary,
-    required this.secondary,
-  });
-
-  factory Audio.fromJson(Map<String, dynamic> json) => Audio(
-        primary: json["primary"],
-        secondary: List<String>.from(json["secondary"].map((x) => x)),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "primary": primary,
-        "secondary": List<dynamic>.from(secondary.map((x) => x)),
-      };
-}
-
-class Meta {
-  int juz;
-  int page;
-  int manzil;
-  int ruku;
-  int hizbQuarter;
-  Sajda sajda;
-
-  Meta({
-    required this.juz,
-    required this.page,
-    required this.manzil,
-    required this.ruku,
-    required this.hizbQuarter,
-    required this.sajda,
-  });
-
-  factory Meta.fromJson(Map<String, dynamic> json) => Meta(
-        juz: json["juz"],
-        page: json["page"],
-        manzil: json["manzil"],
-        ruku: json["ruku"],
-        hizbQuarter: json["hizbQuarter"],
-        sajda: Sajda.fromJson(json["sajda"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "juz": juz,
-        "page": page,
-        "manzil": manzil,
-        "ruku": ruku,
-        "hizbQuarter": hizbQuarter,
-        "sajda": sajda.toJson(),
-      };
-}
-
-class Sajda {
-  bool recommended;
-  bool obligatory;
-
-  Sajda({
-    required this.recommended,
-    required this.obligatory,
-  });
-
-  factory Sajda.fromJson(Map<String, dynamic> json) => Sajda(
-        recommended: json["recommended"],
-        obligatory: json["obligatory"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "recommended": recommended,
-        "obligatory": obligatory,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (number != null) {
+      data['number'] = number!.toJson();
+    }
+    if (meta != null) {
+      data['meta'] = meta!.toJson();
+    }
+    if (text != null) {
+      data['text'] = text!.toJson();
+    }
+    if (translation != null) {
+      data['translation'] = translation!.toJson();
+    }
+    if (audio != null) {
+      data['audio'] = audio!.toJson();
+    }
+    if (tafsir != null) {
+      data['tafsir'] = tafsir!.toJson();
+    }
+    return data;
+  }
 }
 
 class Number {
-  int inQuran;
-  int inSurah;
+  int? inQuran;
+  int? inSurah;
 
-  Number({
-    required this.inQuran,
-    required this.inSurah,
-  });
+  Number({this.inQuran, this.inSurah});
 
-  factory Number.fromJson(Map<String, dynamic> json) => Number(
-        inQuran: json["inQuran"],
-        inSurah: json["inSurah"],
-      );
+  Number.fromJson(Map<String, dynamic> json) {
+    inQuran = json['inQuran'];
+    inSurah = json['inSurah'];
+  }
 
-  Map<String, dynamic> toJson() => {
-        "inQuran": inQuran,
-        "inSurah": inSurah,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['inQuran'] = inQuran;
+    data['inSurah'] = inSurah;
+    return data;
+  }
 }
 
-class Tafsir {
-  Id id;
+class Meta {
+  int? juz;
+  int? page;
+  int? manzil;
+  int? ruku;
+  int? hizbQuarter;
+  Sajda? sajda;
 
-  Tafsir({
-    required this.id,
-  });
+  Meta(
+      {this.juz,
+      this.page,
+      this.manzil,
+      this.ruku,
+      this.hizbQuarter,
+      this.sajda});
 
-  factory Tafsir.fromJson(Map<String, dynamic> json) => Tafsir(
-        id: Id.fromJson(json["id"]),
-      );
+  Meta.fromJson(Map<String, dynamic> json) {
+    juz = json['juz'];
+    page = json['page'];
+    manzil = json['manzil'];
+    ruku = json['ruku'];
+    hizbQuarter = json['hizbQuarter'];
+    sajda = json['sajda'] != null ? Sajda.fromJson(json['sajda']) : null;
+  }
 
-  Map<String, dynamic> toJson() => {
-        "id": id.toJson(),
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['juz'] = juz;
+    data['page'] = page;
+    data['manzil'] = manzil;
+    data['ruku'] = ruku;
+    data['hizbQuarter'] = hizbQuarter;
+    if (sajda != null) {
+      data['sajda'] = sajda!.toJson();
+    }
+    return data;
+  }
 }
 
-class Id {
-  String short;
-  String long;
+class Sajda {
+  bool? recommended;
+  bool? obligatory;
 
-  Id({
-    required this.short,
-    required this.long,
-  });
+  Sajda({this.recommended, this.obligatory});
 
-  factory Id.fromJson(Map<String, dynamic> json) => Id(
-        short: json["short"],
-        long: json["long"],
-      );
+  Sajda.fromJson(Map<String, dynamic> json) {
+    recommended = json['recommended'];
+    obligatory = json['obligatory'];
+  }
 
-  Map<String, dynamic> toJson() => {
-        "short": short,
-        "long": long,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['recommended'] = recommended;
+    data['obligatory'] = obligatory;
+    return data;
+  }
 }
 
 class Text {
-  String arab;
-  Transliteration transliteration;
+  String? arab;
+  Transliteration? transliteration;
 
-  Text({
-    required this.arab,
-    required this.transliteration,
-  });
+  Text({this.arab, this.transliteration});
 
-  factory Text.fromJson(Map<String, dynamic> json) => Text(
-        arab: json["arab"],
-        transliteration: Transliteration.fromJson(json["transliteration"]),
-      );
+  Text.fromJson(Map<String, dynamic> json) {
+    arab = json['arab'];
+    transliteration = json['transliteration'] != null
+        ? Transliteration.fromJson(json['transliteration'])
+        : null;
+  }
 
-  Map<String, dynamic> toJson() => {
-        "arab": arab,
-        "transliteration": transliteration.toJson(),
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['arab'] = arab;
+    if (transliteration != null) {
+      data['transliteration'] = transliteration!.toJson();
+    }
+    return data;
+  }
 }
 
 class Transliteration {
-  String en;
+  String? en;
 
-  Transliteration({
-    required this.en,
-  });
+  Transliteration({this.en});
 
-  factory Transliteration.fromJson(Map<String, dynamic> json) =>
-      Transliteration(
-        en: json["en"],
-      );
+  Transliteration.fromJson(Map<String, dynamic> json) {
+    en = json['en'];
+  }
 
-  Map<String, dynamic> toJson() => {
-        "en": en,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['en'] = en;
+    return data;
+  }
 }
 
 class Translation {
-  String en;
-  String id;
+  String? en;
+  String? id;
 
-  Translation({
-    required this.en,
-    required this.id,
-  });
+  Translation({this.en, this.id});
 
-  factory Translation.fromJson(Map<String, dynamic> json) => Translation(
-        en: json["en"],
-        id: json["id"],
-      );
+  Translation.fromJson(Map<String, dynamic> json) {
+    en = json['en'];
+    id = json['id'];
+  }
 
-  Map<String, dynamic> toJson() => {
-        "en": en,
-        "id": id,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['en'] = en;
+    data['id'] = id;
+    return data;
+  }
+}
+
+class Audio {
+  String? primary;
+  List<String>? secondary;
+
+  Audio({this.primary, this.secondary});
+
+  Audio.fromJson(Map<String, dynamic> json) {
+    primary = json['primary'];
+    secondary = json['secondary'].cast<String>();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['primary'] = primary;
+    data['secondary'] = secondary;
+    return data;
+  }
+}
+
+class Tafsir {
+  Id? id;
+
+  Tafsir({this.id});
+
+  Tafsir.fromJson(Map<String, dynamic> json) {
+    id = json['id'] != null ? Id.fromJson(json['id']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (id != null) {
+      data['id'] = id!.toJson();
+    }
+    return data;
+  }
+}
+
+class Id {
+  String? short;
+  String? long;
+
+  Id({this.short, this.long});
+
+  Id.fromJson(Map<String, dynamic> json) {
+    short = json['short'];
+    long = json['long'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['short'] = short;
+    data['long'] = long;
+    return data;
+  }
 }
