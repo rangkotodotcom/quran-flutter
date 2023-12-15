@@ -1,3 +1,4 @@
+import 'package:alquran/app/contants/color.dart';
 import 'package:alquran/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,6 @@ class IntroductionView extends GetView<IntroductionController> {
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF431AA1),
               ),
             ),
             const SizedBox(
@@ -41,13 +41,16 @@ class IntroductionView extends GetView<IntroductionController> {
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 70,
             ),
-            SizedBox(
-              width: 300,
-              height: 300,
-              child: Lottie.asset(
-                'assets/lotties/animasi-quran.json',
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: SizedBox(
+                width: 300,
+                height: 300,
+                child: Lottie.asset(
+                  'assets/lotties/animasi-quran.json',
+                ),
               ),
             ),
             const SizedBox(
@@ -56,9 +59,21 @@ class IntroductionView extends GetView<IntroductionController> {
             ElevatedButton(
               onPressed: () => Get.offAllNamed(Routes.HOME),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF431AA1),
+                backgroundColor: Get.isDarkMode ? appWhite : appPurple,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 50,
+                  vertical: 15,
+                ),
               ),
-              child: const Text('GET STARTED'),
+              child: Text(
+                'GET STARTED',
+                style: TextStyle(
+                  color: Get.isDarkMode ? appPurpleDark : appWhite,
+                ),
+              ),
             ),
           ],
         ),
