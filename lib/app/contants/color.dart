@@ -15,6 +15,9 @@ ThemeData themeLight = ThemeData(
     elevation: 4,
     backgroundColor: appPurple,
   ),
+  floatingActionButtonTheme: const FloatingActionButtonThemeData(
+    backgroundColor: appPurpleDark,
+  ),
   textTheme: const TextTheme(
     bodyLarge: TextStyle(
       color: appPurpleDark,
@@ -25,6 +28,14 @@ ThemeData themeLight = ThemeData(
     bodySmall: TextStyle(
       color: appPurpleDark,
     ),
+  ),
+  listTileTheme: const ListTileThemeData(
+    textColor: appPurpleDark,
+  ),
+  tabBarTheme: const TabBarTheme(
+    labelColor: appPurpleDark,
+    indicatorColor: appPurpleDark,
+    unselectedLabelColor: Colors.grey,
   ),
 );
 
@@ -36,6 +47,9 @@ ThemeData themeDark = ThemeData(
     elevation: 0,
     backgroundColor: appPurpleDark,
   ),
+  floatingActionButtonTheme: const FloatingActionButtonThemeData(
+    backgroundColor: appWhite,
+  ),
   textTheme: const TextTheme(
     bodyLarge: TextStyle(
       color: appWhite,
@@ -46,5 +60,13 @@ ThemeData themeDark = ThemeData(
     bodySmall: TextStyle(
       color: appWhite,
     ),
+  ),
+  listTileTheme: const ListTileThemeData(
+    textColor: appWhite,
+  ),
+  tabBarTheme: const TabBarTheme(
+    labelColor: appWhite,
+    indicatorColor: appWhite,
+    unselectedLabelColor: Colors.grey,
   ),
 );

@@ -11,6 +11,9 @@ class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    if (Get.isDarkMode) {
+      controller.isDark.value = true;
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Quran'),
@@ -120,11 +123,8 @@ class HomeView extends GetView<HomeController> {
                   ),
                 ),
               ),
-              TabBar(
-                indicatorColor: appPurpleDark,
-                labelColor: Get.isDarkMode ? appWhite : appPurpleDark,
-                unselectedLabelColor: Colors.grey,
-                tabs: const [
+              const TabBar(
+                tabs: [
                   Tab(
                     text: "Surah",
                   ),
@@ -164,44 +164,40 @@ class HomeView extends GetView<HomeController> {
                                 Routes.DETAIL_SURAH,
                                 arguments: surah,
                               ),
-                              leading: Container(
-                                height: 35,
-                                width: 35,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage(
-                                      Get.isDarkMode
-                                          ? "assets/images/list_dark.png"
-                                          : "assets/images/list_light.png",
+                              leading: Obx(() => Container(
+                                    height: 35,
+                                    width: 35,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                          controller.isDark.isTrue
+                                              ? "assets/images/list_dark.png"
+                                              : "assets/images/list_light.png",
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "${surah.number}",
-                                    style: TextStyle(
-                                      color: Get.isDarkMode
-                                          ? appWhite
-                                          : appPurpleDark,
+                                    child: Center(
+                                      child: Text(
+                                        "${surah.number}",
+                                        style: TextStyle(
+                                          color: Get.isDarkMode
+                                              ? appWhite
+                                              : appPurpleDark,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ),
+                                  )),
                               title: Text(
                                 surah.name.transliteration.id,
-                                style: TextStyle(
-                                  color:
-                                      Get.isDarkMode ? appWhite : appPurpleDark,
-                                ),
                               ),
                               subtitle: Text(
-                                  "${surah.numberOfVerses} Ayat | ${surah.revelation.id}"),
+                                "${surah.numberOfVerses} Ayat | ${surah.revelation.id}",
+                                style: TextStyle(
+                                  color: Colors.grey.shade500,
+                                ),
+                              ),
                               trailing: Text(
                                 surah.name.short,
-                                style: TextStyle(
-                                  color:
-                                      Get.isDarkMode ? appWhite : appPurpleDark,
-                                ),
                               ),
                             );
                           },
@@ -213,33 +209,31 @@ class HomeView extends GetView<HomeController> {
                       itemBuilder: (context, index) {
                         return ListTile(
                           onTap: () {},
-                          leading: Container(
-                            height: 35,
-                            width: 35,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  Get.isDarkMode
-                                      ? "assets/images/list_dark.png"
-                                      : "assets/images/list_light.png",
+                          leading: Obx(() => Container(
+                                height: 35,
+                                width: 35,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                      controller.isDark.isTrue
+                                          ? "assets/images/list_dark.png"
+                                          : "assets/images/list_light.png",
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "${index + 1}",
-                                style: TextStyle(
-                                  color:
-                                      Get.isDarkMode ? appWhite : appPurpleDark,
+                                child: Center(
+                                  child: Text(
+                                    "${index + 1}",
+                                    style: TextStyle(
+                                      color: Get.isDarkMode
+                                          ? appWhite
+                                          : appPurpleDark,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ),
+                              )),
                           title: Text(
                             "Juz ${index + 1}",
-                            style: TextStyle(
-                              color: Get.isDarkMode ? appWhite : appPurpleDark,
-                            ),
                           ),
                         );
                       },
@@ -253,6 +247,18 @@ class HomeView extends GetView<HomeController> {
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.isDarkMode
+              ? Get.changeTheme(themeLight)
+              : Get.changeTheme(themeDark);
+          controller.isDark.toggle();
+        },
+        child: Obx(() => Icon(
+              Icons.color_lens_rounded,
+              color: controller.isDark.isTrue ? appWhite : appPurpleDark,
+            )),
       ),
     );
   }
