@@ -8,6 +8,7 @@ const appWhite = Color(0xFFFAF8FC);
 const appOrange = Color(0xFFE670A4);
 
 ThemeData themeLight = ThemeData(
+  brightness: Brightness.light,
   primaryColor: appPurple,
   scaffoldBackgroundColor: Colors.white,
   appBarTheme: const AppBarTheme(
@@ -27,6 +28,7 @@ ThemeData themeLight = ThemeData(
 );
 
 ThemeData themeDark = ThemeData(
+  brightness: Brightness.dark,
   primaryColor: appPurple,
   scaffoldBackgroundColor: appPurpleDark,
   appBarTheme: const AppBarTheme(

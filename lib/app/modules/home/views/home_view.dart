@@ -13,6 +13,7 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: Get.isDarkMode ? 0 : 4,
         title: const Text('My Quran'),
         centerTitle: true,
         actions: [
@@ -25,7 +26,11 @@ class HomeView extends GetView<HomeController> {
       body: DefaultTabController(
         length: 3,
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.only(
+            top: 20,
+            left: 20,
+            right: 20,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -116,11 +121,11 @@ class HomeView extends GetView<HomeController> {
                   ),
                 ),
               ),
-              const TabBar(
+              TabBar(
                 indicatorColor: appPurpleDark,
-                labelColor: appPurpleDark,
+                labelColor: Get.isDarkMode ? appWhite : appPurpleDark,
                 unselectedLabelColor: Colors.grey,
-                tabs: [
+                tabs: const [
                   Tab(
                     text: "Surah",
                   ),
@@ -160,20 +165,85 @@ class HomeView extends GetView<HomeController> {
                                 Routes.DETAIL_SURAH,
                                 arguments: surah,
                               ),
-                              leading: CircleAvatar(
-                                child: Text("${index + 1}"),
+                              leading: Container(
+                                height: 35,
+                                width: 35,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                      Get.isDarkMode
+                                          ? "assets/images/list_dark.png"
+                                          : "assets/images/list_light.png",
+                                    ),
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "${surah.number}",
+                                    style: TextStyle(
+                                      color: Get.isDarkMode
+                                          ? appWhite
+                                          : appPurpleDark,
+                                    ),
+                                  ),
+                                ),
                               ),
-                              title: Text(surah.name.transliteration.id),
+                              title: Text(
+                                surah.name.transliteration.id,
+                                style: TextStyle(
+                                  color:
+                                      Get.isDarkMode ? appWhite : appPurpleDark,
+                                ),
+                              ),
                               subtitle: Text(
                                   "${surah.numberOfVerses} Ayat | ${surah.revelation.id}"),
-                              trailing: Text(surah.name.short),
+                              trailing: Text(
+                                surah.name.short,
+                                style: TextStyle(
+                                  color:
+                                      Get.isDarkMode ? appWhite : appPurpleDark,
+                                ),
+                              ),
                             );
                           },
                         );
                       },
                     ),
-                    const Center(
-                      child: Text('Page 2'),
+                    ListView.builder(
+                      itemCount: 30,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          onTap: () {},
+                          leading: Container(
+                            height: 35,
+                            width: 35,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage(
+                                  Get.isDarkMode
+                                      ? "assets/images/list_dark.png"
+                                      : "assets/images/list_light.png",
+                                ),
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "${index + 1}",
+                                style: TextStyle(
+                                  color:
+                                      Get.isDarkMode ? appWhite : appPurpleDark,
+                                ),
+                              ),
+                            ),
+                          ),
+                          title: Text(
+                            "Juz ${index + 1}",
+                            style: TextStyle(
+                              color: Get.isDarkMode ? appWhite : appPurpleDark,
+                            ),
+                          ),
+                        );
+                      },
                     ),
                     const Center(
                       child: Text('Page 3'),

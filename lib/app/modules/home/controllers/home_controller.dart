@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:alquran/app/data/models/juz.dart';
 import 'package:alquran/app/data/models/surah.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -16,6 +17,20 @@ class HomeController extends GetxController {
       return [];
     } else {
       return data.map((e) => Surah.fromJson(e)).toList();
+    }
+  }
+
+  Future<List<Juz>> getDetailJuz(String juz) async {
+    Uri url = Uri.parse('https://quran-api-sooty.vercel.app/juz/$juz');
+
+    var res = await http.get(url);
+
+    List data = (jsonDecode(res.body) as Map<String, dynamic>)['data'];
+
+    if (data.isEmpty) {
+      return [];
+    } else {
+      return data.map((e) => Juz.fromJson(e)).toList();
     }
   }
 }
