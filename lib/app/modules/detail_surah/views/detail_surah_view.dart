@@ -1,3 +1,4 @@
+import 'package:alquran/app/contants/color.dart';
 import 'package:alquran/app/data/models/detail_surah.dart' as detail;
 import 'package:alquran/app/data/models/surah.dart';
 import 'package:flutter/material.dart';
@@ -19,36 +20,87 @@ class DetailSurahView extends GetView<DetailSurahController> {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Text(
-                    "Surah ${surah.name.transliteration.id.toUpperCase()}",
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+          GestureDetector(
+            onTap: () => Get.dialog(
+              Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    20,
+                  ),
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Get.isDarkMode
+                        ? appPurpleLight2.withOpacity(0.3)
+                        : appWhite,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  padding: const EdgeInsets.all(25),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        "Tafsir",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        surah.tafsir.id,
+                        textAlign: TextAlign.left,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                gradient: const LinearGradient(
+                  colors: [
+                    appPurpleLight1,
+                    appPurpleLight2,
+                  ],
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    Text(
+                      "Surah ${surah.name.transliteration.id.toUpperCase()}",
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: appWhite,
+                      ),
                     ),
-                  ),
-                  Text(
-                    "( ${surah.name.translation.id.toUpperCase()} )",
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                    Text(
+                      "( ${surah.name.translation.id.toUpperCase()} )",
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: appWhite,
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    "${surah.numberOfVerses} Ayah | ${surah.revelation.id}",
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                    const SizedBox(
+                      height: 10,
                     ),
-                  ),
-                ],
+                    Text(
+                      "${surah.numberOfVerses} Ayah | ${surah.revelation.id}",
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: appWhite,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -79,9 +131,12 @@ class DetailSurahView extends GetView<DetailSurahController> {
                     }
                     detail.Verse? ayat = snapshot.data?.verses?[index];
                     return Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Card(
+                        Container(
+                          decoration: BoxDecoration(
+                            color: appPurpleLight2.withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                               vertical: 5,
@@ -90,8 +145,21 @@ class DetailSurahView extends GetView<DetailSurahController> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                CircleAvatar(
-                                  child: Text("${index + 1}"),
+                                Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                    image: AssetImage(
+                                      Get.isDarkMode
+                                          ? "assets/images/list_dark.png"
+                                          : "assets/images/list_light.png",
+                                    ),
+                                    fit: BoxFit.contain,
+                                  )),
+                                  child: Center(
+                                    child: Text("${index + 1}"),
+                                  ),
                                 ),
                                 Row(
                                   children: [
