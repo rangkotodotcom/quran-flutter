@@ -13,7 +13,6 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: Get.isDarkMode ? 0 : 4,
         title: const Text('My Quran'),
         centerTitle: true,
         actions: [

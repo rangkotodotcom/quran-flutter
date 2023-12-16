@@ -12,6 +12,7 @@ ThemeData themeLight = ThemeData(
   primaryColor: appPurple,
   scaffoldBackgroundColor: Colors.white,
   appBarTheme: const AppBarTheme(
+    elevation: 4,
     backgroundColor: appPurple,
   ),
   textTheme: const TextTheme(
@@ -32,6 +33,7 @@ ThemeData themeDark = ThemeData(
   primaryColor: appPurple,
   scaffoldBackgroundColor: appPurpleDark,
   appBarTheme: const AppBarTheme(
+    elevation: 0,
     backgroundColor: appPurpleDark,
   ),
   textTheme: const TextTheme(
