@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-class SearchController extends GetxController {
+class SearchQuranController extends GetxController {
   //TODO: Implement SearchController
 
   final count = 0.obs;

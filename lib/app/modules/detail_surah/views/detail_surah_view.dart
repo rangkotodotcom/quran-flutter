@@ -108,95 +108,131 @@ class DetailSurahView extends GetView<DetailSurahController> {
             height: 20,
           ),
           FutureBuilder<detail.DetailSurah>(
-              future: controller.getDetailSurah(surah.number.toString()),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
+            future: controller.getDetailSurah(surah.number.toString()),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
 
-                if (!snapshot.hasData) {
-                  return const Center(
-                    child: Text("Tidak Ada Data"),
-                  );
-                }
-                return ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: snapshot.data?.verses?.length ?? 0,
-                  itemBuilder: (context, index) {
-                    if (snapshot.data!.verses!.isEmpty) {
-                      return const SizedBox();
-                    }
-                    detail.Verse? ayat = snapshot.data?.verses?[index];
-                    return Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: appPurpleLight2.withOpacity(0.3),
-                            borderRadius: BorderRadius.circular(10),
+              if (!snapshot.hasData) {
+                return const Center(
+                  child: Text("Tidak Ada Data"),
+                );
+              }
+              return ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: snapshot.data?.verses?.length ?? 0,
+                itemBuilder: (context, index) {
+                  if (snapshot.data!.verses!.isEmpty) {
+                    return const SizedBox();
+                  }
+                  detail.Verse? ayat = snapshot.data?.verses?[index];
+                  return Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: appPurpleLight2.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 5,
+                            horizontal: 10,
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 5,
-                              horizontal: 10,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  width: 40,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                    image: AssetImage(
-                                      Get.isDarkMode
-                                          ? "assets/images/list_dark.png"
-                                          : "assets/images/list_light.png",
-                                    ),
-                                    fit: BoxFit.contain,
-                                  )),
-                                  child: Center(
-                                    child: Text("${index + 1}"),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                  image: AssetImage(
+                                    Get.isDarkMode
+                                        ? "assets/images/list_dark.png"
+                                        : "assets/images/list_light.png",
                                   ),
+                                  fit: BoxFit.contain,
+                                )),
+                                child: Center(
+                                  child: Text("${index + 1}"),
                                 ),
-                                Row(
+                              ),
+                              GetBuilder<DetailSurahController>(
+                                builder: (c) => Row(
                                   children: [
                                     IconButton(
                                       onPressed: () {},
                                       icon: const Icon(
-                                          Icons.bookmark_add_outlined),
+                                        Icons.bookmark_add_outlined,
+                                      ),
                                     ),
-                                    IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(Icons.play_arrow),
-                                    ),
+                                    (ayat!.kondisiAudio == 'stop')
+                                        ? IconButton(
+                                            onPressed: () => c.playAudio(ayat),
+                                            icon: const Icon(
+                                              Icons.play_arrow,
+                                            ),
+                                          )
+                                        : Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              (ayat.kondisiAudio == 'playing')
+                                                  ? IconButton(
+                                                      onPressed: () =>
+                                                          c.pauseAudio(ayat),
+                                                      icon: const Icon(
+                                                        Icons.pause,
+                                                      ),
+                                                    )
+                                                  : IconButton(
+                                                      onPressed: () =>
+                                                          c.resumeAudio(ayat),
+                                                      icon: const Icon(
+                                                        Icons.play_arrow,
+                                                      ),
+                                                    ),
+                                              IconButton(
+                                                onPressed: () =>
+                                                    c.stopAudio(ayat),
+                                                icon: const Icon(
+                                                  Icons.stop,
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                   ],
                                 ),
-                              ],
-                            ),
+                              )
+                            ],
                           ),
                         ),
-                        const SizedBox(
-                          height: 20,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        width: Get.width,
+                        padding: const EdgeInsets.only(
+                          left: 20,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 20,
+                        child: Text(
+                          "${ayat!.text!.arab}",
+                          textAlign: TextAlign.end,
+                          style: const TextStyle(
+                            fontSize: 25,
                           ),
-                          child: Text(
-                            "${ayat!.text!.arab}",
-                            textAlign: TextAlign.end,
-                            style: const TextStyle(
-                              fontSize: 25,
-                            ),
-                          ),
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        width: Get.width,
+                        child: Text(
                           "${ayat.text!.transliteration!.en}",
                           textAlign: TextAlign.end,
                           style: const TextStyle(
@@ -204,24 +240,29 @@ class DetailSurahView extends GetView<DetailSurahController> {
                             fontStyle: FontStyle.italic,
                           ),
                         ),
-                        const SizedBox(
-                          height: 25,
-                        ),
-                        Text(
+                      ),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      SizedBox(
+                        width: Get.width,
+                        child: Text(
                           "${ayat.translation!.id}",
                           textAlign: TextAlign.justify,
                           style: const TextStyle(
                             fontSize: 18,
                           ),
                         ),
-                        const SizedBox(
-                          height: 50,
-                        ),
-                      ],
-                    );
-                  },
-                );
-              }),
+                      ),
+                      const SizedBox(
+                        height: 50,
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
         ],
       ),
     );

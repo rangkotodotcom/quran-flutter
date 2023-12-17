@@ -1,4 +1,5 @@
 import 'package:alquran/app/contants/color.dart';
+import 'package:alquran/app/data/models/juz.dart' as juz;
 import 'package:alquran/app/data/models/surah.dart';
 import 'package:alquran/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
@@ -89,7 +90,7 @@ class HomeView extends GetView<HomeController> {
                                     color: appWhite,
                                   ),
                                   SizedBox(
-                                    height: 10,
+                                    width: 10,
                                   ),
                                   Text(
                                     "Terakhir dibaca",
@@ -204,40 +205,80 @@ class HomeView extends GetView<HomeController> {
                         );
                       },
                     ),
-                    ListView.builder(
-                      itemCount: 30,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          onTap: () {},
-                          leading: Obx(() => Container(
-                                height: 35,
-                                width: 35,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage(
-                                      controller.isDark.isTrue
-                                          ? "assets/images/list_dark.png"
-                                          : "assets/images/list_light.png",
+                    FutureBuilder<List<juz.Juz>>(
+                        future: controller.getAllJuz(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+
+                          if (!snapshot.hasData) {
+                            return const Center(
+                              child: Text("Tidak Ada Data"),
+                            );
+                          }
+                          return ListView.builder(
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              juz.Juz detailJuz = snapshot.data![index];
+                              return ListTile(
+                                onTap: () => Get.toNamed(
+                                  Routes.DETAIL_JUZ,
+                                  arguments: detailJuz,
+                                ),
+                                leading: Obx(
+                                  () => Container(
+                                    height: 35,
+                                    width: 35,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                          controller.isDark.isTrue
+                                              ? "assets/images/list_dark.png"
+                                              : "assets/images/list_light.png",
+                                        ),
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        "${index + 1}",
+                                        style: TextStyle(
+                                          color: Get.isDarkMode
+                                              ? appWhite
+                                              : appPurpleDark,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
-                                child: Center(
-                                  child: Text(
-                                    "${index + 1}",
-                                    style: TextStyle(
-                                      color: Get.isDarkMode
-                                          ? appWhite
-                                          : appPurpleDark,
-                                    ),
-                                  ),
+                                title: Text(
+                                  "Juz ${index + 1}",
                                 ),
-                              )),
-                          title: Text(
-                            "Juz ${index + 1}",
-                          ),
-                        );
-                      },
-                    ),
+                                isThreeLine: true,
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Mulai dari ${detailJuz.juzStartInfo}",
+                                      style: const TextStyle(
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Sampai ${detailJuz.juzEndInfo}",
+                                      style: const TextStyle(
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        }),
                     const Center(
                       child: Text('Page 3'),
                     ),
@@ -249,16 +290,13 @@ class HomeView extends GetView<HomeController> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.isDarkMode
-              ? Get.changeTheme(themeLight)
-              : Get.changeTheme(themeDark);
-          controller.isDark.toggle();
-        },
-        child: Obx(() => Icon(
-              Icons.color_lens_rounded,
-              color: controller.isDark.isTrue ? appWhite : appPurpleDark,
-            )),
+        onPressed: () => controller.changeThemeMode(),
+        child: Obx(
+          () => Icon(
+            Icons.color_lens_rounded,
+            color: controller.isDark.isTrue ? appPurpleDark : appWhite,
+          ),
+        ),
       ),
     );
   }

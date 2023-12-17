@@ -1,15 +1,12 @@
-import 'dart:convert';
-
-import 'package:alquran/app/data/models/detail_surah.dart';
+import 'package:alquran/app/data/models/juz.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:just_audio/just_audio.dart';
 
-class DetailSurahController extends GetxController {
+class DetailJuzController extends GetxController {
   final player = AudioPlayer();
-  Verse? lastVerse;
+  Verses? lastVerse;
 
-  void playAudio(Verse ayat) async {
+  void playAudio(Verses ayat) async {
     if (ayat.audio!.primary != null) {
       lastVerse ??= ayat;
 
@@ -53,13 +50,13 @@ class DetailSurahController extends GetxController {
     }
   }
 
-  void pauseAudio(Verse ayat) async {
+  void pauseAudio(Verses ayat) async {
     await player.pause();
     ayat.kondisiAudio = "pause";
     update();
   }
 
-  void resumeAudio(Verse ayat) async {
+  void resumeAudio(Verses ayat) async {
     ayat.kondisiAudio = "playing";
     update();
     await player.play();
@@ -67,21 +64,10 @@ class DetailSurahController extends GetxController {
     update();
   }
 
-  void stopAudio(Verse ayat) async {
+  void stopAudio(Verses ayat) async {
     await player.stop();
     ayat.kondisiAudio = "stop";
     update();
-  }
-
-  Future<DetailSurah> getDetailSurah(String id) async {
-    Uri url = Uri.parse('https://quran-api-sooty.vercel.app/surah/$id');
-
-    var res = await http.get(url);
-
-    Map<String, dynamic> data =
-        (jsonDecode(res.body) as Map<String, dynamic>)['data'];
-
-    return DetailSurah.fromJson(data);
   }
 
   @override

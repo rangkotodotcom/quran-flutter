@@ -227,6 +227,7 @@ class Verse {
   Translation? translation;
   Audio? audio;
   VerseTafsir? tafsir;
+  String kondisiAudio;
 
   Verse({
     this.number,
@@ -235,6 +236,7 @@ class Verse {
     this.translation,
     this.audio,
     this.tafsir,
+    this.kondisiAudio = 'stop',
   });
 
   factory Verse.fromJson(Map<String, dynamic> json) => Verse(
@@ -253,6 +255,7 @@ class Verse {
         "translation": translation!.toJson(),
         "audio": audio!.toJson(),
         "tafsir": tafsir!.toJson(),
+        "kondisiAudio": kondisiAudio,
       };
 }
 
