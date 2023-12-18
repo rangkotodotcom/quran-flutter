@@ -55,12 +55,6 @@ class DetailJuzView extends GetView<DetailJuzController> {
                       GetBuilder<DetailJuzController>(
                         builder: (c) => Row(
                           children: [
-                            IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.bookmark_add_outlined,
-                              ),
-                            ),
                             (ayat.kondisiAudio == 'stop')
                                 ? IconButton(
                                     onPressed: () => c.playAudio(ayat),

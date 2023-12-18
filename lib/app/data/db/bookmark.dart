@@ -29,11 +29,12 @@ class DatabaseManager {
         return await db.execute('''
           CREATE TABLE bookmark (
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+            surah_number INTEGER NOT NULL,
             surah TEXT NOT NULL,
             ayat INTEGER NOT NULL,
             juz INTEGER NOT NULL,
             via TEXT NOT NULL,
-            index_ayat TEXT NOT NULL,
+            index_ayat INTEGER NOT NULL,
             last_read INTEGER DEFAULT 0
           )
           ''');

@@ -44,86 +44,158 @@ class HomeView extends GetView<HomeController> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  gradient: const LinearGradient(
-                    colors: [
-                      appPurpleLight1,
-                      appPurpleLight2,
-                    ],
-                  ),
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(20),
-                  child: InkWell(
-                    onTap: () => Get.toNamed(Routes.LAST_READ),
-                    borderRadius: BorderRadius.circular(20),
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          bottom: -50,
-                          right: 0,
-                          child: Opacity(
-                            opacity: 0.6,
-                            child: SizedBox(
-                              width: 200,
-                              height: 200,
-                              child: Image.asset(
-                                "assets/images/alquran.png",
-                                fit: BoxFit.contain,
-                              ),
-                            ),
+              FutureBuilder(
+                  future: Future.delayed(Duration(seconds: 5)),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(vertical: 20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          gradient: const LinearGradient(
+                            colors: [
+                              appPurpleLight1,
+                              appPurpleLight2,
+                            ],
                           ),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.all(20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              bottom: -40,
+                              right: 0,
+                              child: Opacity(
+                                opacity: 0.6,
+                                child: SizedBox(
+                                  width: 150,
+                                  height: 150,
+                                  child: Image.asset(
+                                    "assets/images/alquran.png",
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.all(20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Icon(
-                                    Icons.menu_book_rounded,
-                                    color: appWhite,
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.menu_book_rounded,
+                                        color: appWhite,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        "Terakhir dibaca",
+                                        style: TextStyle(
+                                          color: appWhite,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   SizedBox(
-                                    width: 10,
+                                    height: 30,
                                   ),
                                   Text(
-                                    "Terakhir dibaca",
+                                    "Loading",
                                     style: TextStyle(
                                       color: appWhite,
+                                      fontSize: 20,
                                     ),
                                   ),
                                 ],
                               ),
-                              SizedBox(
-                                height: 30,
-                              ),
-                              Text(
-                                "Al-Fatihah",
-                                style: TextStyle(
-                                  color: appWhite,
-                                  fontSize: 20,
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                    return Container(
+                      margin: const EdgeInsets.symmetric(vertical: 20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        gradient: const LinearGradient(
+                          colors: [
+                            appPurpleLight1,
+                            appPurpleLight2,
+                          ],
+                        ),
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        borderRadius: BorderRadius.circular(20),
+                        child: InkWell(
+                          onTap: () => Get.toNamed(Routes.LAST_READ),
+                          borderRadius: BorderRadius.circular(20),
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                bottom: -40,
+                                right: 0,
+                                child: Opacity(
+                                  opacity: 0.6,
+                                  child: SizedBox(
+                                    width: 150,
+                                    height: 150,
+                                    child: Image.asset(
+                                      "assets/images/alquran.png",
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
                                 ),
                               ),
-                              Text(
-                                "Juz 1 | Ayat 5",
-                                style: TextStyle(
-                                  color: appWhite,
+                              const Padding(
+                                padding: EdgeInsets.all(20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.menu_book_rounded,
+                                          color: appWhite,
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          "Terakhir dibaca",
+                                          style: TextStyle(
+                                            color: appWhite,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+                                    Text(
+                                      "Al-Fatihah",
+                                      style: TextStyle(
+                                        color: appWhite,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Juz 1 | Ayat 5",
+                                      style: TextStyle(
+                                        color: appWhite,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+                      ),
+                    );
+                  }),
               const TabBar(
                 tabs: [
                   Tab(
@@ -279,9 +351,79 @@ class HomeView extends GetView<HomeController> {
                             },
                           );
                         }),
-                    const Center(
-                      child: Text('Page 3'),
-                    ),
+                    GetBuilder<HomeController>(
+                      builder: (c) {
+                        return FutureBuilder<List<Map<String, dynamic>>>(
+                          future: c.getBookmark(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+
+                            if (!snapshot.hasData) {
+                              return const Center(
+                                child: Text("Tidak Ada Data"),
+                              );
+                            }
+
+                            return ListView.builder(
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) {
+                                Map<String, dynamic> data =
+                                    snapshot.data![index];
+                                return ListTile(
+                                  onTap: () {},
+                                  leading: Obx(
+                                    () => Container(
+                                      height: 35,
+                                      width: 35,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                            controller.isDark.isTrue
+                                                ? "assets/images/list_dark.png"
+                                                : "assets/images/list_light.png",
+                                          ),
+                                        ),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "${index + 1}",
+                                          style: TextStyle(
+                                            color: Get.isDarkMode
+                                                ? appWhite
+                                                : appPurpleDark,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  title: Text("${data['surah']}"),
+                                  subtitle: Text(
+                                    "Ayat ${data['ayat']} - via ${data['via']}",
+                                    style: const TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  trailing: IconButton(
+                                    onPressed: () {
+                                      c.deleteBookmark(data['id']);
+                                    },
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      color: Colors.redAccent,
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        );
+                      },
+                    )
                   ],
                 ),
               ),
