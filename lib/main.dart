@@ -13,7 +13,7 @@ void main() async {
   runApp(
     GetMaterialApp(
       theme: box.read('themeDark') == null ? themeLight : themeDark,
-      title: "Application",
+      title: "My Quran",
       initialRoute: Routes.INTRODUCTION,
       getPages: AppPages.routes,
       debugShowCheckedModeBanner: false,
