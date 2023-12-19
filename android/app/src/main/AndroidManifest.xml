@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.rangkoto.alquran">
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="alquran"
+        android:label="My Quran"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true">
