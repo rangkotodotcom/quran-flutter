@@ -44,94 +44,22 @@ class HomeView extends GetView<HomeController> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              FutureBuilder(
-                  future: Future.delayed(Duration(seconds: 5)),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Container(
-                        margin: const EdgeInsets.symmetric(vertical: 20),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          gradient: const LinearGradient(
-                            colors: [
-                              appPurpleLight1,
-                              appPurpleLight2,
-                            ],
+              GetBuilder<HomeController>(
+                builder: (c) => FutureBuilder<Map<String, dynamic>>(
+                    future: c.getLastRead(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Container(
+                          margin: const EdgeInsets.symmetric(vertical: 20),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            gradient: const LinearGradient(
+                              colors: [
+                                appPurpleLight1,
+                                appPurpleLight2,
+                              ],
+                            ),
                           ),
-                        ),
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              bottom: -40,
-                              right: 0,
-                              child: Opacity(
-                                opacity: 0.6,
-                                child: SizedBox(
-                                  width: 150,
-                                  height: 150,
-                                  child: Image.asset(
-                                    "assets/images/alquran.png",
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.all(20),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.menu_book_rounded,
-                                        color: appWhite,
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        "Terakhir dibaca",
-                                        style: TextStyle(
-                                          color: appWhite,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 30,
-                                  ),
-                                  Text(
-                                    "Loading",
-                                    style: TextStyle(
-                                      color: appWhite,
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                    return Container(
-                      margin: const EdgeInsets.symmetric(vertical: 20),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        gradient: const LinearGradient(
-                          colors: [
-                            appPurpleLight1,
-                            appPurpleLight2,
-                          ],
-                        ),
-                      ),
-                      child: Material(
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(20),
-                        child: InkWell(
-                          onTap: () => Get.toNamed(Routes.LAST_READ),
-                          borderRadius: BorderRadius.circular(20),
                           child: Stack(
                             children: [
                               Positioned(
@@ -175,27 +103,121 @@ class HomeView extends GetView<HomeController> {
                                       height: 30,
                                     ),
                                     Text(
-                                      "Al-Fatihah",
+                                      "Loading",
                                       style: TextStyle(
                                         color: appWhite,
                                         fontSize: 20,
                                       ),
                                     ),
                                     Text(
-                                      "Juz 1 | Ayat 5",
-                                      style: TextStyle(
-                                        color: appWhite,
-                                      ),
+                                      "",
                                     ),
                                   ],
                                 ),
                               ),
                             ],
                           ),
+                        );
+                      }
+
+                      Map<String, dynamic> lastRead = snapshot.data!;
+
+                      return Container(
+                        margin: const EdgeInsets.symmetric(vertical: 20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          gradient: const LinearGradient(
+                            colors: [
+                              appPurpleLight1,
+                              appPurpleLight2,
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  }),
+                        child: Material(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(20),
+                          child: InkWell(
+                            onTap: () {
+                              if (lastRead['surah_number'] > 0) {
+                                Get.toNamed(
+                                  Routes.DETAIL_SURAH,
+                                  arguments: {
+                                    "number": lastRead['surah_number'],
+                                    "surah": lastRead['surah'],
+                                    "bookmark": lastRead,
+                                  },
+                                );
+                              }
+                            },
+                            borderRadius: BorderRadius.circular(20),
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  bottom: -40,
+                                  right: 0,
+                                  child: Opacity(
+                                    opacity: 0.6,
+                                    child: SizedBox(
+                                      width: 150,
+                                      height: 150,
+                                      child: Image.asset(
+                                        "assets/images/alquran.png",
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(20),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Row(
+                                        children: [
+                                          Icon(
+                                            Icons.menu_book_rounded,
+                                            color: appWhite,
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            "Terakhir dibaca",
+                                            style: TextStyle(
+                                              color: appWhite,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 30,
+                                      ),
+                                      Text(
+                                        "${lastRead['surah']}",
+                                        style: const TextStyle(
+                                          color: appWhite,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                      Text(
+                                        (lastRead['surah'] != '')
+                                            ? "Juz ${lastRead['juz']} | Ayat ${lastRead['ayat']}"
+                                            : "Belum ada data",
+                                        style: const TextStyle(
+                                          color: appWhite,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+              ),
               const TabBar(
                 tabs: [
                   Tab(
@@ -235,7 +257,10 @@ class HomeView extends GetView<HomeController> {
                             return ListTile(
                               onTap: () => Get.toNamed(
                                 Routes.DETAIL_SURAH,
-                                arguments: surah,
+                                arguments: {
+                                  "number": surah.number,
+                                  "surah": surah.name.transliteration.id,
+                                },
                               ),
                               leading: Obx(() => Container(
                                     height: 35,
@@ -375,7 +400,14 @@ class HomeView extends GetView<HomeController> {
                                 Map<String, dynamic> data =
                                     snapshot.data![index];
                                 return ListTile(
-                                  onTap: () {},
+                                  onTap: () => Get.toNamed(
+                                    Routes.DETAIL_SURAH,
+                                    arguments: {
+                                      "number": data['surah_number'],
+                                      "surah": data['surah'],
+                                      "bookmark": data,
+                                    },
+                                  ),
                                   leading: Obx(
                                     () => Container(
                                       height: 35,

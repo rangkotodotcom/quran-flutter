@@ -6,15 +6,18 @@ import 'package:alquran/app/data/models/detail_surah.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:just_audio/just_audio.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 class DetailSurahController extends GetxController {
+  AutoScrollController scrollC = AutoScrollController();
+
   final player = AudioPlayer();
   Verse? lastVerse;
 
   DatabaseManager database = DatabaseManager.instance;
 
-  void addBookmark(
+  Future<void> addBookmark(
       bool lastRead, DetailSurah? surah, Verse ayat, int indexAyat) async {
     Database db = await database.db;
 

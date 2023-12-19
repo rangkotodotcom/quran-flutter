@@ -20,9 +20,30 @@ class HomeController extends GetxController {
     List<Map<String, dynamic>> allBookmarks = await db.query(
       "bookmark",
       where: "last_read = 0",
+      orderBy: "surah_number",
     );
 
     return allBookmarks;
+  }
+
+  Future<Map<String, dynamic>> getLastRead() async {
+    Database db = await database.db;
+
+    List<Map<String, dynamic>> lastRead = await db.query(
+      "bookmark",
+      where: "last_read = 1",
+    );
+
+    if (lastRead.isEmpty) {
+      return <String, dynamic>{
+        "surah_number": 0,
+        "surah": "",
+        "juz": "",
+        "ayat": "",
+      };
+    } else {
+      return lastRead.first;
+    }
   }
 
   void deleteBookmark(int id) async {
